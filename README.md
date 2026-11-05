@@ -6,6 +6,8 @@
 
 ## Документы
 
+**Доска разработки:** [Competitive Kanban — GitHub Projects](https://github.com/users/levbortov/projects/3).
+
 - [Видение продукта](docs/VISION.md)
 - [Спецификация рейтинга RATING-001](docs/RATING-001.md)
 - [Регламент разработки GOVERNANCE-001](docs/GOVERNANCE-001.md)

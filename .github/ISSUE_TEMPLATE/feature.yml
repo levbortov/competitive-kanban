@@ -1,43 +1,43 @@
-name: Feature request
-description: Proposal for user-observable API behavior
+name: Новая функция
+description: Запрос на изменение поведения HTTP API
 title: "feat: "
 body:
   - type: textarea
     id: problem
     attributes:
-      label: Problem or goal
-      description: What user need does this address?
+      label: Проблема или цель
+      description: Какую потребность решает функция?
     validations:
       required: true
   - type: textarea
     id: behavior
     attributes:
-      label: Expected behavior
-      description: API contract, examples, observable outcomes
+      label: Ожидаемое поведение
+      description: HTTP-контракт, примеры, наблюдаемый результат
     validations:
       required: true
   - type: textarea
     id: criteria
     attributes:
-      label: Acceptance criteria
-      description: List checkable conditions
-      placeholder: "- [ ] Given... when... then..."
+      label: Критерии приёмки
+      description: Укажите проверяемые условия
+      placeholder: "- [ ] При условии... когда... тогда..."
     validations:
       required: true
   - type: textarea
     id: out_of_scope
     attributes:
-      label: Out of scope and dependencies
+      label: Исключения и зависимости
     validations:
       required: false
   - type: dropdown
     id: priority
     attributes:
-      label: Priority proposal
+      label: Предлагаемый приоритет
       options:
-        - P0 — blocking
-        - P1 — high
-        - P2 — normal
-        - P3 — low
+        - P0 — блокирующий
+        - P1 — высокий
+        - P2 — обычный
+        - P3 — низкий
     validations:
       required: true

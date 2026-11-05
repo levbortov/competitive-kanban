@@ -1,22 +1,25 @@
-# Proposed milestone roadmap
+# Дорожная карта проекта
 
-Only M00 has been started. Labels, GitHub Projects and real GitHub Milestones must be configured/verified separately; the entries below are **not** claims of their creation.
+**Фактически начат только M00.** Указанные ниже этапы пока являются планом в документации, а не подтверждением создания Milestones в GitHub. Настройки Labels, Projects и Rulesets также требуют отдельной проверки.
 
-| Milestone | Outcome |
+| Milestone | Результат |
 |---|---|
-| M00 — Governance | Vision, approved rating rules, ADR process, issue/PR templates, baseline CI, GitHub project/rules setup |
-| M01 — Foundation | Python project, FastAPI health, adapter interfaces, dependency boundary checks, unit/integration CI |
-| M02 — Kanban | Identity, personal boards, task lifecycle, REST/OpenAPI contracts |
-| M03 — Evaluation | Versioned challenge catalog, attempts, deterministic evaluation, time tracking |
-| M04 — Competition | Matchmaking queue, Elo ledger, provisional leaderboard, concurrency-safe tests |
-| M05 — Release | API reference, container package, versioned releases, deployment workflow |
-| M06 — Portability | Second persistence adapter, adapter contract tests, migration exercise |
+| M00 — Регламент | Видение, рейтинг, ADR, шаблоны, базовый CI, настройка GitHub |
+| M01 — Основа | Каркас Python/FastAPI, портов и адаптеров, тесты архитектуры и CI |
+| M02 — Канбан | Участники, персональные доски, задачи и REST/OpenAPI |
+| M03 — Проверка | Каталог версионированных заданий, попытки, проверка и учёт времени |
+| M04 — Соревнование | Очередь матчей, Elo, аудит и таблица лидеров |
+| M05 — Выпуск | Документация API, контейнер, релизы и развёртывание |
+| M06 — Переносимость | Альтернативное хранилище, контрактные тесты и миграция |
 
-## Project board fields
+## Поля GitHub Projects
 
-Status: Backlog, Ready, In Progress, In Review, Acceptance, Done. Separate Blocked flag.
-Priority: P0..P3. Size: XS/S/M/L. Area: Governance, Core, API, Persistence, Verification, Rating, DevEx. Iteration is the current timebox.
+`Status`: Backlog, Ready, In Progress, In Review, Acceptance, Done. `Blocked` — отдельный признак.
 
-## M00 exit criteria
+`Priority`: P0–P3. `Size`: XS/S/M/L. `Area`: Governance, Core, API, Persistence, Verification, Rating, DevEx. `Iteration` — текущая итерация.
 
-A PR contains normative documents and templates; checks pass; manual configuration gaps are tracked; Product Owner accepts governance PR; a trial issue -> PR -> CI -> review -> acceptance -> merge is demonstrated later without bypassing branch rules.
+Названия полей и машинные значения сохраняются на английском для предсказуемости автоматизаций; пояснения и задачи пишутся на русском.
+
+## Критерии завершения M00
+
+PR содержит нормативные документы и шаблоны; проверки проходят; административные настройки отслеживаются отдельно; владелец продукта принимает PR; затем проводится пробный цикл Issue → PR → CI → ревью → приёмка → merge без обхода правил защиты.

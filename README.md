@@ -1,23 +1,25 @@
 # Competitive Kanban
 
-Experimental API-only competitive personal kanban board: ordinary personal tasks coexist with catalog challenges that award Elo only after server verification and one asynchronous match.
+Экспериментальный API-сервис соревновательной персональной канбан-доски. Пользователи управляют произвольными задачами, но рейтинг Elo получают только за автоматически проверяемые задания из общего каталога, результаты которых участвуют в асинхронных дуэлях.
 
-**Status:** M00 — governance and project setup. There is no application implementation yet.
+**Состояние:** M00 — регламент и настройка проекта. Код приложения ещё не реализован.
 
-## Approved foundations
+## Документы
 
-- [Vision](docs/VISION.md)
-- [Rating specification RATING-001](docs/RATING-001.md)
-- [Governance policy GOVERNANCE-001](docs/GOVERNANCE-001.md)
-- [Architecture and boundaries](docs/ARCHITECTURE.md)
-- [Roadmap](docs/ROADMAP.md)
-- [Contributing and review](CONTRIBUTING.md)
-- [Architecture Decision Records](docs/adr/README.md)
+- [Видение продукта](docs/VISION.md)
+- [Спецификация рейтинга RATING-001](docs/RATING-001.md)
+- [Регламент разработки GOVERNANCE-001](docs/GOVERNANCE-001.md)
+- [Архитектурные ограничения](docs/ARCHITECTURE.md)
+- [Дорожная карта](docs/ROADMAP.md)
+- [Правила участия и проверки изменений](CONTRIBUTING.md)
+- [Архитектурные решения (ADR)](docs/adr/README.md)
 
-## Delivery rules
+## Порядок разработки
 
-Feature, governance and architectural changes use GitHub Issues, isolated branches and pull requests. Product and governance pull requests **must not be merged without explicit product-owner acceptance**. CI and reviews do not replace that acceptance.
+Все изменения проходят через GitHub Issues, отдельные ветки и Pull Requests. **Продуктовые, архитектурные и организационные PR нельзя объединять без явной приёмки владельцем продукта.** Успешный CI не заменяет приёмку.
 
-Project board, milestones, labels, branch rules and additional automation are tracked in GitHub Issues while platform administration is configured.
+Обсуждения, документация, Issues, PR, сообщения коммитов и отчёты по проекту ведутся **на русском языке**. Технические идентификаторы, код, названия API-полей, команды и общеупотребимые термины GitHub остаются на английском, когда это необходимо для совместимости и ясности.
 
-No API endpoints are available until M01/M02. See [M00 tracking issue](https://github.com/levbortov/competitive-kanban/issues/1).
+Настройка Projects, Milestones, Labels, Rulesets и прочей инфраструктуры отслеживается отдельными Issues. До завершения M01/M02 HTTP API отсутствует.
+
+[Основная задача M00 — Issue #1](https://github.com/levbortov/competitive-kanban/issues/1).

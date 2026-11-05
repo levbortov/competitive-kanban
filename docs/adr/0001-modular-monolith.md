@@ -1,21 +1,21 @@
-# ADR-0001: Modular monolith with ports and adapters
+# ADR-0001: Модульный монолит с портами и адаптерами
 
-**Status:** Accepted (approved project direction) | **Date:** 2026-11-05
+**Статус:** принято (утверждённое направление проекта). **Дата:** 2026-11-05.
 
-## Context
+## Контекст
 
-The service is deliberately small, but should prove that the domain survives swapping an initial SQLite adapter for another persistence technology.
+Проект небольшой, но должен продемонстрировать, что предметная логика не меняется при замене начального адаптера SQLite на другое хранилище.
 
-## Decision
+## Решение
 
-Use a single deployable Python/FastAPI service. Place pure business rules in a domain layer; express dependencies on persistence and verification through application ports. Adapters contain all DB-specific mapping and queries. Do not introduce microservices for MVP.
+Используем один развёртываемый Python/FastAPI-сервис. Бизнес-правила помещаем в независимый доменный слой. Зависимости от хранения и проверки выражаем портами прикладного уровня. SQL и особенности баз данных изолируем в адаптерах. Микросервисы для MVP не вводим.
 
-## Consequences
+## Последствия
 
-- Easier isolated tests, fewer runtime components, clearer dependency boundaries.
-- More explicit interface/transaction design and mapping code.
-- SQLite and MongoDB do not share identical transactional guarantees; adapters must meet behavior contract tests or explicitly document unsupported semantics.
+- Более простые изолированные тесты, меньше компонентов при развёртывании, ясные границы зависимостей.
+- Потребуются дополнительные контракты, продуманная работа с транзакциями и преобразование данных.
+- SQLite и MongoDB не имеют идентичных транзакционных гарантий: адаптеры обязаны проходить контрактные тесты или явно объявлять ограничения.
 
-## Alternatives
+## Альтернативы
 
-Tightly coupled CRUD modules would be smaller initially but impede portability. Microservices add operational complexity without solving the current problem.
+Непосредственно связанные CRUD-модули сократят первоначальный объём, но усложнят замену хранилища. Микросервисы добавят эксплуатационные издержки, не решив текущую задачу.

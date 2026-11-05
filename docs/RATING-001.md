@@ -1,75 +1,76 @@
-# RATING-001 — Competitive rating specification
+# RATING-001 — Спецификация соревновательного рейтинга
 
-**Status:** approved MVP rules | **Version:** 1.0 | **Updated:** 2026-11-05
+**Статус:** правила MVP утверждены. **Версия:** 1.0. **Дата:** 2026-11-05.
 
-This document is the normative behavior contract for MVP. Changes require an Issue and a versioned decision; do not silently rewrite recorded rating events.
+Это нормативная спецификация поведения рейтинговой системы. Изменения требуют Issue и версионирования решения; историю рейтинговых событий нельзя незаметно переписывать.
 
-## 1. Definitions and eligibility
+## 1. Допуск к рейтингу
 
-Ordinary user-authored tasks do not affect Elo. Only one official attempt per (participant, challenge template, season) can be created. Attempts for challenges in the centrally managed catalog can affect Elo if verified by server-side deterministic evaluators. A challenge defines an immutable version, difficulty in 1..5, reference duration >0 and the evaluator version.
+Обычные задачи участников не влияют на Elo. Участнику разрешена одна официальная попытка для каждой пары (шаблон задания, сезон). Рейтинговыми являются только задания из общего каталога с детерминированной серверной проверкой. У задания есть неизменяемая версия, сложность от 1 до 5, положительный норматив времени и версия проверяющего алгоритма.
 
-An attempt is measured by the server from issuance to final submission or server-enforced timeout. Client-provided durations or client claims of verification are not trusted. Retries may not restart an official attempt's timer. Any change to challenge parameters or verification requires a new challenge version.
+Время попытки измеряет сервер — от выдачи до отправки итогового результата или истечения срока. Время, переданное клиентом, и заявления об успешной проверке не считаются достоверными. Повторные запросы не перезапускают таймер. Изменение условий, норматива или критериев проверки требует новой версии задания.
 
-## 2. Efficiency
+## 2. Эффективность
 
-Quality Q is in [0,100]; normalized velocity V and efficiency P are:
+Качество Q находится в диапазоне [0, 100]. Нормализованная скорость V и интегральная эффективность P:
 
     V = 100 * min(1, T_reference / T_actual)
     P = 0.70 * Q + 0.30 * V
 
-T_actual must be strictly positive; invalid or missing timestamps must not be accepted as a completed rated result. For a timed-out attempt the server records failure with the defined deadline; no undefined ratio is evaluated.
+Фактическая длительность T_actual должна быть строго положительной. Попытку с некорректными временными метками нельзя принять как завершённый рейтинговый результат. При тайм-ауте сервер записывает неуспешную попытку со временем установленного дедлайна, не вычисляя отношение с некорректным знаменателем.
 
-A successful attempt requires Q >= 80. Quality below 80 is a failed attempt. A failed attempt can lose against a successful attempt, regardless of the computed P. If both attempts succeed, compare P. Absolute P difference <= 0.5 is a draw; otherwise the higher P wins. If both fail, do not make a rated match; preserve the attempts without a rating change.
+Попытка успешна при **Q >= 80**. Если Q < 80, попытка неуспешна. При сравнении неуспешной и успешной попыток побеждает успешная независимо от P. Если успешны обе попытки, выигрывает большая P. При абсолютной разнице P не более **0,5** фиксируется ничья. Если обе попытки неуспешны, рейтинговый матч не создаётся; попытки сохраняются в истории без изменения Elo.
 
-## 3. Matchmaking
+## 3. Подбор соперников
 
-Only attempts belonging to distinct participants, the same challenge template + version, difficulty and season can be paired. Both must be unconsumed official attempts; one attempt can be consumed by at most one match.
+Допускаются только попытки **разных участников** с одинаковыми шаблоном и версией задания, сложностью и сезоном. Каждая официальная попытка может быть использована в одном матче максимум один раз.
 
-Search in a persistent queue, using each attempt's waiting age:
-- age <24h: allowed Elo difference <=200
-- 24h <= age <72h: allowed Elo difference <=400
-- age >=72h: any Elo difference.
+Поиск ведётся в сохраняемой очереди. Окно определяется возрастом каждой попытки:
 
-A pair is eligible when the difference is within the more permissive of the two participants' current windows, so an older waiting attempt is not stranded by the arrival of a new opponent. Among eligible candidates choose the smallest absolute Elo difference; tie-break by earlier queue time, then immutable attempt identifier to guarantee deterministic results.
+- Менее 24 часов: разница Elo не более 200.
+- От 24 до менее 72 часов: разница Elo не более 400.
+- Начиная с 72 часов: разница Elo не ограничена.
 
-A failed attempt may be paired only with a successful attempt, never with another failed attempt. A successful attempt may be paired with either. At season close unmatched attempts expire without Elo changes; there is no artificial win against the clock.
+Для возможности объединить давно ожидающий результат с новым соперником применяется более широкое из двух окон. Среди допустимых кандидатов выбирается наименьшая абсолютная разница Elo. Если значения совпали — приоритет у более ранней постановки в очередь, затем у меньшего неизменяемого идентификатора попытки.
 
-Matchmaking must be concurrency-safe, transactional and idempotent. Re-processing the same attempt, match or event must not award Elo twice.
+Неуспешную попытку можно сопоставить только с успешной, но не с другой неуспешной. Успешная попытка может быть сопоставлена с любой совместимой. При закрытии сезона несопоставленные попытки истекают без изменения Elo. Побед за ожидание не начисляем.
 
-## 4. Elo equation and stakes
+Подбор и запись матча должны быть безопасны при параллельных запросах, атомарны и идемпотентны. Повторная обработка не может начислять Elo второй раз.
 
-All participants start at 1000 Elo. The outcome S for A is 1 on win, 0.5 on draw and 0 on loss. With R_A, R_B before the match:
+## 4. Формула Elo и коэффициенты сложности
+
+Каждый участник начинает с **1000 Elo**. Результат S равен 1 за победу, 0,5 за ничью и 0 за поражение. При исходных рейтингах R_A и R_B:
 
     E_A = 1 / (1 + 10 ** ((R_B - R_A) / 400))
     delta_A = K * (S_A - E_A)
     delta_B = -delta_A
 
-K is the same for both participants, selected by challenge difficulty:
+Коэффициент K одинаков для обеих сторон матча и зависит от сложности задания:
 
-| Difficulty | 1 | 2 | 3 | 4 | 5 |
+| Сложность | 1 | 2 | 3 | 4 | 5 |
 |---|---:|---:|---:|---:|---:|
 | K | 18 | 21 | 24 | 27 | 30 |
 
-Preserve full working precision in storage; round only for API presentation. Do not impose a minimum Elo floor. The sum of both ratings must be invariant across a match (within defined numerical tolerance).
+Во внутреннем хранилище сохраняем вычислительную точность; округление допускается при выдаче API. Нижнего порога Elo нет. Сумма рейтингов двух участников до и после матча сохраняется в пределах заданной численной погрешности.
 
-No direct point rewards for task creation, finishing an ordinary task, high difficulty or waiting in queue.
+Никаких отдельных начислений за создание обычной задачи, прохождение сложности, ожидание или сам факт завершения нет.
 
-## 5. History and seasons
+## 5. Сезоны, аудит и история
 
-Match, participant rating-before/after, Q, V, P, template and evaluator versions, difficulty, selected K and algorithm version are recorded immutably as rating events. Corrections require an explicit compensating event or audited rebuild operation, never hidden mutation.
+Рейтинговое событие неизменяемо и содержит исходные и новые рейтинги, результаты обоих участников, Q/V/P, версии задания, проверяющего алгоритма и формулы, сложность и K. Исправления возможны только через явно задокументированное компенсирующее событие или контролируемый пересчёт.
 
-Seasons are modeled from the start; the MVP does not automatically reset Elo. A participant is displayed as provisional until at least five completed rated matches. Only non-provisional participants appear in the ranked public leaderboard.
+Сезоны предусмотрены в модели; в MVP рейтинг автоматически не сбрасывается. До пяти завершённых рейтинговых матчей участник считается предварительным. В основную публичную таблицу лидеров попадают участники с не менее чем пятью матчами.
 
-## 6. Abuse boundaries
+## 6. Ограничения защиты от накрутки
 
-The MVP prevents duplicate attempts, duplicate matches, invalid timing claims and reprocessing; deterministic/generated inputs and private checks mitigate answer sharing. It does **not** claim resistance to sockpuppets, collusion or offline preparation. A full anti-fraud system is outside MVP.
+MVP исключает повторные попытки, дублирующиеся матчи, недостоверное время и повторное начисление при повторной обработке. Сгенерированные индивидуальные условия и закрытые проверки усложняют обмен ответами. Защита от дополнительных аккаунтов, сговора и заблаговременной подготовки **не гарантируется**.
 
-## 7. Required tests for implementation
+## 7. Необходимые тесты
 
-- Exact efficiency calculation and threshold at Q=80; time normalization and invalid values.
-- Draw boundary at 0.5 and all success/failure combinations.
-- Every K level and zero-sum invariant, unequal starting ratings, rounding.
-- Match eligibility across templates, versions, seasons and the 24h/72h boundaries.
-- Stable tie-breaking, concurrent attempts, duplicate submissions and retries.
-- One official attempt per challenge per season, timeout and season close.
-- Immutable rating event audit data; leaderboard provisional threshold.
+- Вычисление P, граница Q=80, нормализация времени и недопустимые значения.
+- Граница ничьей 0,5 и все сочетания успеха/неуспеха.
+- Все коэффициенты K, нулевая сумма, разные начальные рейтинги и округление.
+- Совместимость версий, шаблонов, сезонов и границы окон 24/72 часа.
+- Стабильный выбор при равенстве, параллельные запросы, дубли и повторная обработка.
+- Одна попытка за сезон, тайм-аут и завершение сезона.
+- Неизменность аудита и порог предварительного статуса в таблице лидеров.

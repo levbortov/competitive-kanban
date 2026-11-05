@@ -1,7 +1,7 @@
-# Architecture Decision Records
+# Архитектурные решения (ADR)
 
-Document significant, durable decisions with numbered files: 0001-short-title.md, 0002-etc.md.
+Существенные долгосрочные решения оформляем пронумерованными файлами: `0001-краткое-название.md`, `0002-...`. Для совместимости с инструментами допускаются имена файлов латиницей.
 
-Each record includes Status (Proposed/Accepted/Superseded), Context, Decision, Consequences and Alternatives.
+Каждая запись содержит разделы: **Статус** (Предложено / Принято / Заменено), **Контекст**, **Решение**, **Последствия**, **Альтернативы**.
 
-Accepted ADRs are append-only decisions: new decisions supersede previous ones explicitly. Architectural changes require an Issue, PR and Product Owner acceptance when they affect approved boundaries.
+Принятые решения не переписываем задним числом: новое ADR явно заменяет старое. Изменения архитектуры требуют Issue, PR и приёмки владельца продукта, если затрагивают согласованные границы.

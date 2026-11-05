@@ -1,27 +1,27 @@
-# Contributing to Competitive Kanban
+# Правила участия в разработке Competitive Kanban
 
-See [GOVERNANCE-001](docs/GOVERNANCE-001.md) for binding policy.
+Обязательные правила описаны в [GOVERNANCE-001](docs/GOVERNANCE-001.md).
 
-## Work on an Issue
+## Работа по Issue
 
-1. Clarify intended behavior, constraints and acceptance criteria in an Issue.
-2. Create a named feature/fix/chore branch and prepare a draft PR.
-3. Implement the smallest complete vertical slice; add test evidence.
-4. Keep PR description linked to Issue(s); describe impact and migrations.
-5. Resolve findings and await CI and Product Owner acceptance before merging product/governance PRs.
+1. Согласовать ожидаемое поведение, ограничения и проверяемые критерии в Issue.
+2. Создать отдельную ветку и Draft PR.
+3. Реализовать минимальный законченный сценарий с тестами.
+4. Сослаться на задачи в PR, описать изменения контрактов и миграции.
+5. Разобрать замечания, получить успешный CI и приёмку владельца продукта до объединения продуктового или организационного PR.
 
-## Commit guidelines
+## Язык
 
-Prefer conventional prefixes: feat:, fix:, refactor:, docs:, test:, chore:, ci:. Keep changes small and reversible.
+Документация, описания задач, PR, обсуждения, комментарии и пояснительные тексты коммитов — на русском. Код, публичные API-идентификаторы, названия классов, ключи YAML и другие машинные идентификаторы можно оставлять на английском.
 
-## Pull request readiness
+Префиксы сообщений коммитов — `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`, `ci:`; последующее описание на русском. Изменения должны быть небольшими и обратимыми.
 
-Include scope, acceptance mapping, testing, impact on domain/ports and docs, risks, follow-up tasks. Never claim manual GitHub settings have been enabled unless verified.
+## Перед передачей PR на проверку
 
-## Local M00 checks
+Опишите затронутые критерии приёмки, результаты тестирования, влияние на домен/порты и документацию, риски, оставшиеся задачи и путь отката. Не утверждайте, что настройки GitHub включены, пока это не проверено.
 
-Run:
+## Локальные проверки M00
 
     python3 -m unittest discover -s tests -v
 
-Feature implementation starts in M01. No runtime service or Docker setup exists at M00.
+Код приложения начинается с M01. До него запускать API или Docker нечего.

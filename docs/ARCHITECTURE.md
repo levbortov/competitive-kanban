@@ -1,46 +1,46 @@
-# Architecture contract (MVP target)
+# Архитектурный контракт MVP
 
-**Status:** target architecture, not implemented until M01.
+**Статус:** целевая архитектура; реализация запланирована на M01.
 
-The application is a **modular monolith** using ports and adapters. FastAPI, storage adapters and authentication transport are external to the domain.
+Приложение — **модульный монолит** с портами и адаптерами. FastAPI, хранилища и транспорт авторизации отделены от предметной области.
 
-Dependency direction:
+Направление зависимостей:
 
-    HTTP routes -> application use cases -> domain entities and rules
-                       |                           ^
-                       v                           |
-                 abstract ports  <-----------------+
-                       ^
-                       |
-          SQLite / future MongoDB adapters
+    HTTP-маршруты → прикладные сценарии → сущности и правила домена
+                           │                       ↑
+                           ↓                       │
+                      порты (контракты) ──────────┘
+                           ↑
+                           │
+               адаптеры SQLite / MongoDB
 
-Possible future package organization:
+Предполагаемая структура пакетов:
 
     app/
-      domain/         # pure entities, value objects, rules (Elo, attempts, matches)
-      application/    # orchestration, repository protocols, transactions
+      domain/         # сущности, объекты-значения, правила Elo и матчей
+      application/    # сценарии использования, порты и транзакции
       adapters/
-        http/         # FastAPI, request/response schemas, auth transport
-        persistence/  # sqlite and optional other stores
-        verification/ # trusted deterministic challenge evaluators
-      bootstrap/      # dependency wiring and configuration
+        http/         # FastAPI, схемы запросов/ответов
+        persistence/  # SQLite и альтернативные хранилища
+        verification/ # доверенные проверяющие алгоритмы
+      bootstrap/      # связывание зависимостей и конфигурация
 
-## Invariants
+## Архитектурные инварианты
 
-1. Domain packages never import FastAPI, Pydantic persistence models, sqlite3, MongoDB clients or HTTP types.
-2. Application workflows depend only on ports/contracts, not a concrete database.
-3. Persistence adapters translate storage representations to domain values.
-4. A rating match and the two ledger changes must commit atomically or roll back atomically.
-5. The domain owns validation and rules; transport schemas validate shapes, not business policy.
-6. Matchmaking concurrency and idempotency are tested against each persistence adapter.
-7. Cross-module communication uses explicit application contracts. Avoid circular imports and shared mutable global state.
+1. Пакеты `domain` не импортируют FastAPI, ORM-модели, `sqlite3`, клиент MongoDB и HTTP-типы.
+2. Прикладные сценарии зависят от контрактов портов, а не от конкретной базы данных.
+3. Адаптеры преобразуют способ хранения в доменные сущности и обратно.
+4. Матч и оба изменения в журнале Elo фиксируются атомарно либо полностью откатываются.
+5. Доменные правила принадлежат домену; транспортная валидация проверяет форму данных, а не бизнес-логику.
+6. Конкурентная обработка матчей и идемпотентность тестируются для каждого адаптера хранения.
+7. Межмодульное взаимодействие ведётся через явные контракты прикладного уровня; циклических зависимостей и глобального изменяемого состояния не допускаем.
 
-## Planned ports
+## Планируемые порты
 
-ParticipantRepository, BoardRepository, TaskRepository, CatalogRepository, AttemptRepository, MatchRepository, RatingLedgerRepository, UnitOfWork, Clock, ChallengeEvaluator, IdentityProvider.
+`ParticipantRepository`, `BoardRepository`, `TaskRepository`, `CatalogRepository`, `AttemptRepository`, `MatchRepository`, `RatingLedgerRepository`, `UnitOfWork`, `Clock`, `ChallengeEvaluator`, `IdentityProvider`.
 
-The port names are provisional; add only interfaces actually needed by an implementation slice. MongoDB replacement means new adapters and migration, not a guarantee that transaction/index semantics are identical. Contract tests across adapters are part of M06.
+Это ориентировочные имена. Создавать абстракции разрешено только тогда, когда они нужны рабочему сценарию. Замена SQLite на MongoDB подразумевает новый адаптер и миграцию, но не гарантирует идентичность транзакционных и индексных возможностей. На M06 проверим контрактные тесты.
 
-## Chosen stack
+## Технический стек
 
-Python, FastAPI, SQLite, pytest and GitHub Actions. Docker introduced once there is a runnable service. No UI in MVP. Keep runtime dependencies minimal.
+Python, FastAPI, SQLite, pytest, GitHub Actions. Docker вводим после появления работающего сервиса. Для MVP веб-интерфейс не предусмотрен. Зависимости должны быть минимальными.

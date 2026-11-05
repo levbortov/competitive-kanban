@@ -1,40 +1,40 @@
-name: Bug report
-description: Observed behavior that violates an accepted contract
+name: Сообщение об ошибке
+description: Наблюдаемое поведение нарушает согласованный контракт
 title: "fix: "
 body:
   - type: textarea
     id: observed
     attributes:
-      label: Observed behavior
+      label: Что произошло
     validations:
       required: true
   - type: textarea
     id: expected
     attributes:
-      label: Expected behavior
+      label: Что должно было произойти
     validations:
       required: true
   - type: textarea
     id: reproduce
     attributes:
-      label: Steps to reproduce
+      label: Шаги воспроизведения
     validations:
       required: true
   - type: textarea
     id: evidence
     attributes:
-      label: Evidence and environment
-      description: Logs, API sample, commit, version, screenshots; do not include secrets
+      label: Доказательства и окружение
+      description: Логи, запрос API, коммит, версия; не публикуйте секреты
     validations:
       required: false
   - type: dropdown
     id: severity
     attributes:
-      label: Severity
+      label: Серьёзность
       options:
-        - Critical
-        - High
-        - Medium
-        - Low
+        - Критическая
+        - Высокая
+        - Средняя
+        - Низкая
     validations:
       required: true

@@ -1,4 +1,4 @@
-"""M00 repository governance smoke checks (Python stdlib only)."""
+"""Базовые проверки структуры M00 без сторонних Python-зависимостей."""
 
 from pathlib import Path
 import unittest
@@ -26,25 +26,25 @@ REQUIRED = (
 class GovernanceTests(unittest.TestCase):
     def test_required_files_exist(self):
         missing = [path for path in REQUIRED if not (ROOT / path).is_file()]
-        self.assertEqual(missing, [], f"Missing governance files: {missing}")
+        self.assertEqual(missing, [], f"Отсутствуют документы: {missing}")
 
     def test_rating_invariants_are_documented(self):
         content = (ROOT / "docs/RATING-001.md").read_text(encoding="utf-8")
         for token in ("0.70", "0.30", "Q >= 80", "18 | 21 | 24 | 27 | 30",
-                      "1000 Elo", "24h", "72h", "one match"):
+                      "1000 Elo", "24", "72", "одном матче"):
             with self.subTest(token=token):
                 self.assertIn(token, content)
 
     def test_explicit_acceptance_rule(self):
         content = (ROOT / "docs/GOVERNANCE-001.md").read_text(encoding="utf-8")
-        self.assertIn("explicit acceptance before merge", content)
+        self.assertIn("явной приёмки владельца продукта", content)
 
     def test_issue_templates_have_required_fields(self):
         for name in ("feature", "bug", "tech-debt"):
             with self.subTest(name=name):
-                text = (ROOT / f".github/ISSUE_TEMPLATE/{name}.yml").read_text(encoding="utf-8")
-                self.assertIn("body:", text)
-                self.assertIn("required: true", text)
+                content = (ROOT / f".github/ISSUE_TEMPLATE/{name}.yml").read_text(encoding="utf-8")
+                self.assertIn("body:", content)
+                self.assertIn("required: true", content)
 
 
 if __name__ == "__main__":

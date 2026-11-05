@@ -1,38 +1,38 @@
-# Product vision — Competitive Kanban
+# Видение продукта — Competitive Kanban
 
-**Status:** approved MVP direction | **Owner:** Product Owner | **Updated:** 2026-11-05
+**Статус:** направление MVP утверждено. **Ответственный:** владелец продукта. **Дата:** 2026-11-05.
 
-## Mission
+## Миссия
 
-Build an API-only competitive personal kanban service that measures relative performance on automatically verifiable tasks. The purpose of the project is also to practice rigorous, traceable GitHub-native software delivery.
+Создать API-сервис персональных канбан-досок, в котором эффективность участников оценивается на основе относительных результатов автоматически проверяемых заданий. Вторая, не менее важная цель — отработать прослеживаемый и дисциплинированный процесс разработки средствами GitHub.
 
-## Users and main concepts
+## Пользователи и основные сущности
 
-- Participant: owns a personal task board and Elo rating.
-- Personal task: arbitrary participant-created work; **never** awards Elo by itself.
-- Catalog challenge: centrally managed, versioned template with deterministic server-side verification, difficulty 1–5 and reference time.
-- Attempt: a participant's single official season attempt at a specific challenge; includes server-controlled start/end timestamps and an immutable evaluation.
-- Match: one asynchronous comparison between **two distinct participants'** compatible attempts. An attempt may participate in at most one match.
-- Rating event: immutable record of one match and its rating effects.
-- Leaderboard: ranking derived from ratings; provisional participants with fewer than five completed rated matches are not eligible for the public ranked leaderboard (proposed threshold included in MVP policy).
+- **Участник** — владеет персональной доской и рейтингом Elo.
+- **Личная задача** — произвольная задача пользователя; сама по себе **никогда** не начисляет Elo.
+- **Рейтинговое задание** — шаблон из общего каталога с версией, серверной проверкой, сложностью 1–5 и нормативом времени.
+- **Попытка** — официальное выполнение задания участником в рамках сезона, с временем начала и завершения, измеренным сервером, и проверенным результатом.
+- **Матч** — асинхронное сравнение двух совместимых попыток разных участников. Каждая попытка участвует максимум в одном матче.
+- **Рейтинговое событие** — неизменяемая запись результата матча и изменений Elo.
+- **Таблица лидеров** — представление рейтингов; участники с менее чем пятью проведёнными рейтинговыми матчами имеют предварительный статус и не входят в основную таблицу.
 
-## Product MVP
+## Границы MVP
 
-1. Personal API-key authentication and participant identity.
-2. Personal boards with tasks and lifecycle (Backlog / In Progress / Done).
-3. Administrator-maintained, versioned catalog challenges.
-4. Server-side JSON-based evaluation (no execution of untrusted user code).
-5. Asynchronous matchmaking and Elo changes.
-6. History, audit events, leaderboard and OpenAPI documentation.
+1. Участники и простая идентификация через API-ключи.
+2. Персональные доски и жизненный цикл обычных задач (Backlog / In Progress / Done).
+3. Управляемый администратором каталог версионированных заданий.
+4. Серверная проверка результатов JSON без исполнения произвольного пользовательского кода.
+5. Асинхронный подбор соперников и изменение Elo.
+6. История, аудит, таблица лидеров и OpenAPI-документация.
 
-## Out of scope
+## Вне MVP
 
-Web UI, multiplayer real-time mode, external account integrations, arbitrary code execution, sophisticated fraud detection, rewards convertible to money, distributed microservices, automatic seasonal resets, user-published rated challenges.
+Веб-интерфейс, соревнования в реальном времени, сторонние интеграции, исполнение присланного кода, полноценный антифрод, денежные призы, микросервисы, автоматическое обнуление рейтинга в новом сезоне и создание рейтинговых заданий пользователями.
 
-## Nonfunctional outcomes
+## Нефункциональные требования
 
-- Modular monolith with domain isolated from FastAPI and database implementations.
-- SQLite first; alternative adapters (including MongoDB) can be added without changing domain rules.
-- No database schema or ORM type in public domain interfaces.
-- Deterministic calculations and idempotent rating processing.
-- Reliable, documented development through GitHub issues, PRs, CI, reviews and releases.
+- Модульный монолит; предметная область не зависит от FastAPI и конкретного хранилища.
+- Первоначальное хранилище — SQLite; другие адаптеры, в том числе MongoDB, подключаются без переписывания бизнес-правил.
+- В предметную область не попадают SQL, ORM-модели и транспортные HTTP-типы.
+- Детерминированные вычисления и идемпотентная обработка рейтинговых событий.
+- Разработка через GitHub Issues, PR, CI, ревью и релизы с документированными решениями.

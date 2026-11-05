@@ -1,59 +1,59 @@
-# GOVERNANCE-001 — GitHub development policy
+# GOVERNANCE-001 — Регламент разработки в GitHub
 
-**Status:** approved for M00 | **Version:** 1.0 | **Updated:** 2026-11-05
+**Статус:** утверждён для M00. **Версия:** 1.0. **Дата:** 2026-11-05.
 
-## Responsibilities and autonomy
+## 1. Язык проекта
 
-The Product Owner defines product behavior, prioritization, accepts delivery and authorizes merges of product and governance PRs. The implementation agent is responsible for technical design, tests, commits, draft PRs, documentation and follow-up issues within approved scope. A separate review pass or agent can help, but self-review is not represented as independent approval. GitHub Actions supplies objective checks.
+Основной рабочий язык репозитория — **русский**. На русском ведутся README, документация, Issues, Pull Requests, обсуждения, комментарии, сообщения коммитов и пользовательские тексты. Технические имена файлов, веток, модулей, классов, API-полей, библиотек, спецификаций, команд и ключей конфигурации остаются на английском, когда так удобнее и безопаснее для разработки. Префиксы Conventional Commits (`feat:`, `fix:`, `docs:` и другие) допускаются; пояснение после префикса пишется на русском. Старые уже опубликованные коммиты не переписываем только ради перевода.
 
-There is no autonomous background implementation between user requests. Work is performed in explicitly invoked sessions.
+## 2. Ответственность и самостоятельность
 
-## Source of truth
+Владелец продукта формулирует поведение, расставляет приоритеты, принимает результат и разрешает merge продуктовых, архитектурных и организационных PR. ИИ-разработчик самостоятельно выполняет технический дизайн, тесты, коммиты, подготовку PR и задач в рамках согласованного объёма. Отдельный проход ревью или агент допустим, но самопроверка не считается независимым одобрением. GitHub Actions даёт объективные результаты автоматических проверок.
 
-- Vision and product boundaries: docs/VISION.md.
-- Rating rules: docs/RATING-001.md.
-- Working agreement: docs/GOVERNANCE-001.md and CONTRIBUTING.md.
-- Architectural decisions: docs/adr/.
-- Feature requirements and acceptance criteria: GitHub Issues.
-- Milestones: release/workstream objectives. GitHub Projects: status, priority, size, iteration, area and views.
-- PRs: review evidence, linked issues, implementation reasoning.
-- GitHub Actions: reproducible checks. Releases and tags: delivered versions.
+Между обращениями пользователя разработка сама по себе не продолжается. Работа выполняется во время явно запущенных сессий.
 
-## Development state machine
+## 3. Источники истины
 
-Backlog -> Ready -> In Progress -> In Review -> Acceptance -> Done.
+- Видение продукта: `docs/VISION.md`.
+- Рейтинг: `docs/RATING-001.md`.
+- Рабочие правила: `docs/GOVERNANCE-001.md` и `CONTRIBUTING.md`.
+- Архитектурные решения: `docs/adr/`.
+- Требования и критерии приёмки: GitHub Issues.
+- Milestones: цели этапов; Projects: статусы, приоритеты, объём, итерации и представления.
+- Pull Requests: реализация, обоснование, ревью и приёмка.
+- GitHub Actions: воспроизводимые проверки; теги и Releases: выпущенные версии.
 
-Blocked is an orthogonal condition, not a phase. A new feature begins with discussion and an Issue before code implementation. Sub-issues express decomposition; blocking dependencies are tracked explicitly. Issues must not be called Done before corresponding changes are merged.
+## 4. Жизненный цикл задачи
 
-### Definition of Ready
+`Backlog → Ready → In Progress → In Review → Acceptance → Done`.
 
-Issue explains expected behavior and non-goals, has checkable acceptance criteria, known dependencies, priority and milestone/iteration intent. Significant unknowns are resolved or scoped as spikes.
+`Blocked` — отдельный признак, а не статус. Каждая новая функциональность до реализации обсуждается и оформляется Issue. Для декомпозиции — Sub-issues; блокирующие зависимости фиксируются явно. Issue нельзя считать завершённой до объединения соответствующих изменений.
 
-### Definition of Done
+**Definition of Ready:** указано ожидаемое поведение и исключения, есть проверяемые критерии, известные зависимости, приоритет и предполагаемый этап разработки. Неопределённости устранены или оформлены отдельным исследованием.
 
-All acceptance criteria satisfied; implementation and required automated tests provided; CI passing; review concerns addressed; contract and architectural docs updated; Product Owner accepts product/governance changes; PR merged; issue closed and project state updated.
+**Definition of Done:** критерии выполнены; код, тесты и документация готовы; CI успешен; замечания разобраны; владелец продукта принял продуктовые или организационные изменения; PR объединён; Issue закрыта, а Project обновлён.
 
-## Branches, commits and PRs
+## 5. Ветки, коммиты и Pull Requests
 
-- main is the stable integration branch. Bootstrap root commit is the only exception needed to establish an empty repository.
-- Changes use isolated branches: feature/*, fix/*, refactor/*, docs/*, chore/*.
-- Do not push development changes directly to main after bootstrap.
-- Create draft PR while work is unfinished; mark ready after internal checks.
-- Link Issue using 'Closes #N' only when this PR fully satisfies it; otherwise use 'Refs #N'.
-- Prefer squash merge after CI and review. No force push to protected main.
-- **Product, architecture and governance PRs require the Product Owner's explicit acceptance before merge.** M00 PR is covered by this rule. CI success is necessary but not sufficient.
-- For minor low-risk maintenance, a lighter acceptance path can be authorized in a later amendment; absent such authorization, do not auto-merge.
+- `main` — стабильная ветка интеграции. Корневой коммит для пустого репозитория — единственное исключение.
+- Все изменения идут через `feature/*`, `fix/*`, `refactor/*`, `docs/*`, `chore/*`.
+- После инициализации прямой push в `main` запрещён рабочим соглашением и должен быть закрыт Ruleset.
+- Незавершённая работа оформляется Draft PR; после собственных проверок PR переводится в Ready.
+- `Closes #N` указываем только когда PR полностью закрывает задачу; иначе `Refs #N`.
+- Предпочтительный способ объединения — squash merge. В защищённой `main` запрещён force push.
+- **Продуктовые, архитектурные и организационные PR нельзя объединять без явной приёмки владельца продукта.** PR этапа M00 подпадает под это правило. Зелёный CI необходим, но сам по себе недостаточен.
+- Упрощённый путь для небольших технических исправлений возможен только после отдельного изменения регламента. До этого автоматический merge не используется.
 
-## Review and CI
+## 6. Ревью и автоматические проверки
 
-Baseline CI in M00 checks governance structure. Starting M01: formatting, linting, type checking, unit tests, PostgreSQL-independent integration where applicable, API contract tests and architecture boundaries as code is added. Dependabot, CodeQL, secret scanning, releases, Packages, deployments and reusable workflows are introduced with relevant milestones.
+В M00 базовый CI проверяет структуру документов. Начиная с M01 добавляются форматирование, линтинг, типизация, unit/integration-тесты, контракты API и архитектурные границы. Dependabot, CodeQL, проверка секретов, Releases, Packages, Deployments и переиспользуемые workflows подключаются по мере необходимости.
 
-Keep workflow permissions least-privilege, pin external actions to full commit SHA, and do not execute privileged actions on untrusted PR code.
+Разрешения токенов Actions ограничиваем минимально необходимыми; внешние Actions закрепляем по полному SHA. Нельзя выполнять непроверенный код из PR с повышенными правами.
 
-## Change control
+## 7. Управление изменениями
 
-Changes in product behavior, Elo rules, persistence contracts or architectural dependencies require an Issue, tests and an ADR if a significant design trade-off is involved. Review notes and acceptance decisions must live in the PR timeline. No release from broken main.
+Изменения поведения продукта, правил Elo, контрактов хранения и архитектурных границ требуют Issue, тестов и ADR, если есть существенный выбор между альтернативами. Замечания ревью и решение о приёмке должны оставаться в обсуждении PR. Из сломанной `main` релиз не выпускаем.
 
-## Repository management constraints
+## 8. Ограничения доступа к настройкам GitHub
 
-Some operations (Projects, Milestones, Labels, Rulesets, repository settings and certain security features) may require owner actions in GitHub settings or an additional connector. Track all manual configuration in Issues and do not claim it is configured until confirmed.
+Некоторые операции с Projects, Milestones, Labels, Rulesets и настройками безопасности могут требовать действий владельца в интерфейсе GitHub либо другого разрешённого подключения. Все такие действия учитываются в Issues и не считаются выполненными до проверки.

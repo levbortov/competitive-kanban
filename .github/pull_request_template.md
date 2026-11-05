@@ -1,27 +1,27 @@
-## Context
+## Контекст
 
-Refs #<!-- issue number -->
+Refs #<!-- номер Issue -->
 
-## Summary
+## Что изменено
 
-Describe the user-visible or governance change.
+Кратко опишите новое поведение или организационное изменение.
 
-## Acceptance criteria
+## Критерии приёмки
 
-- [ ] Every acceptance criterion is implemented or explicitly deferred with a new Issue
+- [ ] Все критерии реализованы либо явно вынесены в новые Issues
 
-## Validation
+## Проверка
 
-- [ ] Automated checks passed
-- [ ] Relevant tests added or updated
-- [ ] API and architecture docs updated if needed
-- [ ] Security and data migration impact considered
+- [ ] Автоматические проверки пройдены
+- [ ] Необходимые тесты добавлены или обновлены
+- [ ] Контракты API и архитектурные документы обновлены при необходимости
+- [ ] Рассмотрены безопасность и миграция данных
 
-## Review notes
+## Замечания для ревью
 
-Risks, design trade-offs, known limitations, rollback approach:
+Риски, альтернативы, известные ограничения и способ отката:
 
-## Product Owner acceptance
+## Приёмка владельцем продукта
 
-- [ ] Explicit acceptance recorded in PR discussion for product / architecture / governance changes
-- [ ] Do not merge a covered PR before acceptance
+- [ ] Явное согласие зафиксировано в обсуждении PR для продуктовых, архитектурных и организационных изменений
+- [ ] До получения согласия объединение PR запрещено

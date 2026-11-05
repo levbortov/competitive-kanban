@@ -1,0 +1,28 @@
+name: Technical change or experiment
+description: Maintenance, architecture changes, automation and research spikes
+title: "chore: "
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context and motivation
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change or hypothesis
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: How we will verify success
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks, alternatives and rollback
+    validations:
+      required: false

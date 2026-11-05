@@ -1,0 +1,43 @@
+name: Feature request
+description: Proposal for user-observable API behavior
+title: "feat: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or goal
+      description: What user need does this address?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected behavior
+      description: API contract, examples, observable outcomes
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Acceptance criteria
+      description: List checkable conditions
+      placeholder: "- [ ] Given... when... then..."
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Out of scope and dependencies
+    validations:
+      required: false
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority proposal
+      options:
+        - P0 — blocking
+        - P1 — high
+        - P2 — normal
+        - P3 — low
+    validations:
+      required: true

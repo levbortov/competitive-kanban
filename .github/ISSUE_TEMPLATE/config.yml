@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Product or architecture discussion
+    url: https://github.com/levbortov/competitive-kanban/discussions
+    about: Use Discussions when enabled for proposals that are not yet ready as Issues

@@ -28,6 +28,13 @@ class GovernanceTests(unittest.TestCase):
         missing = [path for path in REQUIRED if not (ROOT / path).is_file()]
         self.assertEqual(missing, [], f"Отсутствуют документы: {missing}")
 
+    def test_readme_has_required_sections(self):
+        content = (ROOT / "README.md").read_text(encoding="utf-8")
+        headings = {line.strip() for line in content.splitlines() if line.startswith("## ")}
+        for heading in ("## Назначение", "## Документы", "## Порядок разработки"):
+            with self.subTest(heading=heading):
+                self.assertIn(heading, headings)
+
     def test_rating_invariants_are_documented(self):
         content = (ROOT / "docs/RATING-001.md").read_text(encoding="utf-8")
         for token in ("0.70", "0.30", "Q >= 80", "18 | 21 | 24 | 27 | 30",

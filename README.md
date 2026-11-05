@@ -1,7 +1,25 @@
 # Competitive Kanban
 
-An API-first competitive personal kanban experiment. Verified catalog challenges contribute to an asynchronous Elo leaderboard.
+Экспериментальный API-сервис соревновательной персональной канбан-доски. Пользователи управляют произвольными задачами, но рейтинг Elo получают только за автоматически проверяемые задания из общего каталога, результаты которых участвуют в асинхронных дуэлях.
 
-Project governance is being prepared in [Issue #1](https://github.com/levbortov/competitive-kanban/issues/1). Changes will be proposed through pull requests.
+**Состояние:** M00 — регламент и настройка проекта. Код приложения ещё не реализован.
 
-> Bootstrap note: this initial commit exists solely to establish `main` in an otherwise empty GitHub repository. Further development follows pull requests.
+## Документы
+
+- [Видение продукта](docs/VISION.md)
+- [Спецификация рейтинга RATING-001](docs/RATING-001.md)
+- [Регламент разработки GOVERNANCE-001](docs/GOVERNANCE-001.md)
+- [Архитектурные ограничения](docs/ARCHITECTURE.md)
+- [Дорожная карта](docs/ROADMAP.md)
+- [Правила участия и проверки изменений](CONTRIBUTING.md)
+- [Архитектурные решения (ADR)](docs/adr/README.md)
+
+## Порядок разработки
+
+Все изменения проходят через GitHub Issues, отдельные ветки и Pull Requests. **Продуктовые, архитектурные и организационные PR нельзя объединять без явной приёмки владельцем продукта.** Успешный CI не заменяет приёмку.
+
+Обсуждения, документация, Issues, PR, сообщения коммитов и отчёты по проекту ведутся **на русском языке**. Технические идентификаторы, код, названия API-полей, команды и общеупотребимые термины GitHub остаются на английском, когда это необходимо для совместимости и ясности.
+
+Настройка Projects, Milestones, Labels, Rulesets и прочей инфраструктуры отслеживается отдельными Issues. До завершения M01/M02 HTTP API отсутствует.
+
+[Основная задача M00 — Issue #1](https://github.com/levbortov/competitive-kanban/issues/1).

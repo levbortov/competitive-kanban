@@ -1,0 +1,28 @@
+name: Техническая задача или эксперимент
+description: Поддержка, архитектура, автоматизация или исследование
+title: "chore: "
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Контекст и мотивация
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предлагаемое изменение или гипотеза
+    validations:
+      required: true
+  - type: textarea
+    id: validation
+    attributes:
+      label: Как проверить успешность
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Риски, альтернативы и откат
+    validations:
+      required: false

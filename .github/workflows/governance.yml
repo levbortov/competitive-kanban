@@ -1,0 +1,19 @@
+name: Проверки регламента
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Получить код
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Проверить документы и шаблоны
+        run: python3 -m unittest discover -s tests -v

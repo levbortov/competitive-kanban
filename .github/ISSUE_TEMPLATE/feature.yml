@@ -1,0 +1,43 @@
+name: Новая функция
+description: Запрос на изменение поведения HTTP API
+title: "feat: "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Проблема или цель
+      description: Какую потребность решает функция?
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Ожидаемое поведение
+      description: HTTP-контракт, примеры, наблюдаемый результат
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: Критерии приёмки
+      description: Укажите проверяемые условия
+      placeholder: "- [ ] При условии... когда... тогда..."
+    validations:
+      required: true
+  - type: textarea
+    id: out_of_scope
+    attributes:
+      label: Исключения и зависимости
+    validations:
+      required: false
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Предлагаемый приоритет
+      options:
+        - P0 — блокирующий
+        - P1 — высокий
+        - P2 — обычный
+        - P3 — низкий
+    validations:
+      required: true

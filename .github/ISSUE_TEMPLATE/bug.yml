@@ -1,0 +1,40 @@
+name: Сообщение об ошибке
+description: Наблюдаемое поведение нарушает согласованный контракт
+title: "fix: "
+body:
+  - type: textarea
+    id: observed
+    attributes:
+      label: Что произошло
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Что должно было произойти
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Шаги воспроизведения
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Доказательства и окружение
+      description: Логи, запрос API, коммит, версия; не публикуйте секреты
+    validations:
+      required: false
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Серьёзность
+      options:
+        - Критическая
+        - Высокая
+        - Средняя
+        - Низкая
+    validations:
+      required: true
